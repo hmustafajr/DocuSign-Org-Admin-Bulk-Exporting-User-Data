@@ -1,4 +1,4 @@
-# Step 1: Construct your API headers
+# Construct your API header
 $accessToken = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 $orgId = "0da0a9c0-xxxx-xxxx-xxxx-05a0fe6aa5c4"
 
@@ -6,7 +6,7 @@ $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
 $headers.add("Authorization","Bearer $accessToken")
 $headers.add("Content-Type","application/json")
 
-# Step 2: Create the bulk export
+# Create the Bulk Export
 $body = @"
 {
 	"type": "organization_memberships_export"
@@ -22,7 +22,7 @@ $resultId = "To be set"
 Write-Output "The request is being created. Waiting 5 seconds to get the request status."
 Start-Sleep -Second 5
 
-# Step 3: Check the Request Status
+# Check the Request Status
 Write-Output "Checking Bulk Action Status"
 $uri2 = "https://api-d.docusign.net/management/v2/organizations/$orgId/exports/user_list/$requestId"
 $result2 = Invoke-WebRequest -headers $headers -Uri $uri2 -Method GET
@@ -46,7 +46,7 @@ else{
 	Write-Output "An error has occurred, the Bulk Action has not been completed."
 }
 
-# Step 4: Download the exported CSV user list
+# Download the exported CSV user list
 if($results.status -eq "completed"){
 	$uri3 = "https://demo.docusign.net/restapi/v2/organization_exports/$orgId/user_list/$resultId"
 	$result3 = Invoke-WebRequest -headers $headers -Uri $uri3 -Method GET
