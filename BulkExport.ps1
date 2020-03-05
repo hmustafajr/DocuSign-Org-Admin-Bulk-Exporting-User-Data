@@ -29,7 +29,7 @@ $result2 = Invoke-WebRequest -headers $headers -Uri $uri2 -Method GET
 $result2.Content
 $results = $result2 | convertfrom-json
 $retrycount = 0
-Do{
+do{
 	Write-Output "The Bulk Action has not been completed. Retrying in 5 seconds. To abort, Press Control+C"
 	Start-Sleep 5
 	$result2 = Invoke-WebRequest -headers $headers -Uri $uri2 -Method Get
@@ -37,7 +37,7 @@ Do{
 	if($retrycount -eq 5){
 		break
 	}
-} While ($results.status -ne "completed")
+} while ($results.status -ne "completed")
 if($results.status -eq "completed"){
 	Write-Output $results.results.id
 	$resultId = $results.results.id
@@ -45,7 +45,6 @@ if($results.status -eq "completed"){
 else{
 	Write-Output "An error has occurred, the Bulk Action has not been completed."
 }
-
 # Download the exported CSV user list
 if($results.status -eq "completed"){
 	$uri3 = "https://demo.docusign.net/restapi/v2/organization_exports/$orgId/user_list/$resultId"
